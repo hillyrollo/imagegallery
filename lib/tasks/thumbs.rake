@@ -8,11 +8,11 @@ namespace :thumbs do
     end
 
     Dir["#{Settings.image_directory}/*.png"].each do |image|
-      RakeHelper.create_thumbnail(image, Settings.image_directory)
+      `convert -thumbnail 180x180 -gravity center -background transparent -extent 180x180 #{image} #{thumbs_directory}/#{File.basename(image)}`
     end
 
     Dir["#{Settings.image_directory}/*.jpg"].each do |image|
-      RakeHelper.create_thumbnail(image, Settings.image_directory)
+      `convert -thumbnail 180x180 -gravity center -background transparent -extent 180x180 #{image} #{thumbs_directory}/#{File.basename(image)}`
     end
   end
 end

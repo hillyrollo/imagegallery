@@ -18,7 +18,7 @@ module ImageProcessingHelper
 
       if tags.nil?
         puts 'nil tags, skipping'
-        FileUtils.move(image, "#{images_directory}/not_found/#{File.basename(image)}")
+	FileUtils.move(image, "#{Settings.processing_directory}/not_found/#{File.basename(image)}")
         return
       end
 
@@ -44,7 +44,7 @@ module ImageProcessingHelper
   def self.create_thumbnail(image_path, thumbnail_directory)
     return if File.exist? "#{thumbnail_directory}/#{File.basename(image_path)}"
     puts "Creating thumbnail for #{image_path}"
-    `convert -thumbnail 180x180 #{image_path} #{thumbnail_directory}/#{File.basename(image_path)}`
+    `convert -thumbnail 180x180 -gravity center -background transparent -extent 180x180 #{image_path} #{thumbnail_directory}/#{File.basename(image_path)}`
     $?.to_i
   end
 

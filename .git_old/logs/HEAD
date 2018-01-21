@@ -1,0 +1,8 @@
+0000000000000000000000000000000000000000 5c0322abde430d92fb7afcc3341a847e0632d88f root <root@plex.(none)> 1516061179 -0800	clone: from https://github.com/mikkage/imagegallery.git
+5c0322abde430d92fb7afcc3341a847e0632d88f 35de5c41a30b416edad80eaaec78fcd0ab7bfe04 Michael <michael@plex.(none)> 1516076076 -0800	pull origin master: Fast-forward
+35de5c41a30b416edad80eaaec78fcd0ab7bfe04 8ab3303eee9e7c3dc371784ed82d36a9f285e160 Michael <michael@plex.(none)> 1516167683 -0800	pull origin master: Fast-forward
+8ab3303eee9e7c3dc371784ed82d36a9f285e160 eb534b4a5ab9cd5fa83f2ea79d29a4b9f9c484da Michael <mparker473@gmail.com> 1516168375 -0800	commit: Fixed path for requiring a lib in rake task, moved sample settings to development.yml
+eb534b4a5ab9cd5fa83f2ea79d29a4b9f9c484da 95c6bfef715292f863385c8f31db27d57df84b15 Michael <mparker473@gmail.com> 1516170135 -0800	commit: Updated puma config and production config
+95c6bfef715292f863385c8f31db27d57df84b15 b536828d43fc1ecf11f3f2b3b665012407a250b3 Michael <mparker473@gmail.com> 1516409146 -0800	pull origin master: Fast-forward
+b536828d43fc1ecf11f3f2b3b665012407a250b3 62c67aa706ba57eedb99e08c1e950702bcf9971a Michael <mparker473@gmail.com> 1516414258 -0800	pull origin master: Fast-forward
+62c67aa706ba57eedb99e08c1e950702bcf9971a cf93086f26aaef6d3c5e4ebdccd8c9d336f640ad Michael <mparker473@gmail.com> 1516495647 -0800	pull origin master: Fast-forward

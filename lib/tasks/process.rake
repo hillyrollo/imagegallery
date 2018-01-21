@@ -5,12 +5,20 @@ namespace :process do
   task new: :environment do
     thumbs_dir = "#{Settings.image_directory}/thumbs"
 
-    Dir["#{Settings.processing_directory}/*.png"].each do |image|
+    files = Dir["#{Settings.processing_directory}/*.png"]
+    file_amt = files.length
+    Dir["#{Settings.processing_directory}/*.png"].each_with_index do |image, index|
+      puts "#{index+1} of #{file_amt}"
       ImageProcessingHelper.process(image, Settings.image_directory, thumbs_dir)
+      puts ''
     end
 
-    Dir["#{Settings.processing_directory}/*.jpg"].each do |image|
+    files = Dir["#{Settings.processing_directory}/*.jpg"]
+    file_amt = files.length
+    Dir["#{Settings.processing_directory}/*.jpg"].each_with_index do |image, index|
+      puts "#{index+1} of #{file_amt}"
       ImageProcessingHelper.process(image, Settings.image_directory, thumbs_dir)
+      puts ''
     end
   end
 
