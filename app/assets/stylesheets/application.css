@@ -36,7 +36,7 @@
  }
 
  div.desc:hover {
-   border: 1px solid #777;
+   background-color: gray;
  }
 
  /* The sidebar menu */
