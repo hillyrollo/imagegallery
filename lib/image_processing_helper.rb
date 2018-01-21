@@ -18,6 +18,7 @@ module ImageProcessingHelper
 
       if tags.nil?
         puts 'nil tags, skipping'
+        FileUtils.move(image, "#{images_directory}/not_found/#{File.basename(image)}")
         return
       end
 
