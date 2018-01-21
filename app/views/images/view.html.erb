@@ -1,0 +1,24 @@
+<script>
+  var pswpElement = document.querySelectorAll('.pswp')[0];
+
+  // build items array
+  var items = [
+        {
+            src: "<%= asset_path(@image.filename, type: :image, skip_pipeline: true)%>",
+            w: <%= @image.width %>,
+            h: <%= @image.height %>
+        }
+  ];
+
+  // define options (if needed)
+  var options = {
+      index: 0, // start at first slide
+      preload: [2,2],
+      barsSize: {top: 0, bottom: 0},
+      shareEl: false
+  };
+</script>
+
+<div class="gallery">
+  <%= image_tag(@image.thumbnail_path, title: @image.tag_summary, width: 90, height: 90, skip_pipeline: true, onclick: "gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %><br>
+</div>

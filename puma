@@ -1,0 +1,29 @@
+# Sample init script for running image_gallery as a service
+APP_NAME=image_gallery
+APP_LOCALE=/var/www/imagegallery
+
+start() {
+  echo "Starting ${APP_NAME}"
+  cd $APP_LOCALE
+  RAILS_ENV=production PORT=9292 bundle exec pumactl -F config/puma.rb start
+}
+
+stop() {
+  echo "Stopping ${APP_NAME}"
+  cd $APP_LOCALE
+  RAILS_ENV=production bundle exec pumactl -F config/puma.rb stop
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+esac
+exit 0

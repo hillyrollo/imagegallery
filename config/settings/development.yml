@@ -1,0 +1,3 @@
+---
+  image_directory: '/var/www/images'
+  processing_directory: '/path/to/something'

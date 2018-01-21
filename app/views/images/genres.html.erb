@@ -1,0 +1,4 @@
+<h2>Genres</h2>
+<% @list.each do |l| %>
+  <%= link_to "#{l.name}(#{l.taggings_count})", posts_path(search: l.name)  %><br>
+<% end %>
