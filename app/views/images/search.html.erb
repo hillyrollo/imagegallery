@@ -24,14 +24,14 @@
 <h2><%= @title %></h2>
 
 <% if @images.length > 0 %>
-  <% @images.each_with_index do |i,ind| %>
-    <div class="gallery">
-      <%= link_to post_path(i), target: :_blank do %>
-        <%= image_tag(i.thumbnail_path, title: i.tag_summary, width: 90, height: 90, skip_pipeline: true) %>
-      <% end %>
-      <%= content_tag(:div, '&#9658;'.html_safe, class: 'desc', onclick: "options['index']=#{ind};gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %>
-    </div>
-  <% end %>
+<% @images.each_with_index do |i,ind| %>
+  <span class="thumb">
+    <%= link_to post_path(i), target: :_blank do %>
+      <%= content_tag(:div, '', class: 'play-button', onclick: "options['index']=#{ind};gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %>
+      <%= image_tag(i.thumbnail_path, class: 'preview', title: i.tag_summary,  skip_pipeline: true) %>
+    <% end %>
+  </span>
+<% end %>
 <% else %>
   <h3>Nothing here</h3>
 <% end %>

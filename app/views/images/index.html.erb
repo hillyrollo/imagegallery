@@ -22,14 +22,13 @@
 
   // Initializes and opens PhotoSwipe
   var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-  // gallery.init();
 </script>
 
 <% @images.each_with_index do |i,ind| %>
   <span class="thumb">
     <%= link_to post_path(i), target: :_blank do %>
+      <%= content_tag(:div, '', class: 'play-button', onclick: "options['index']=#{ind};gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %>
       <%= image_tag(i.thumbnail_path, class: 'preview', title: i.tag_summary,  skip_pipeline: true) %>
     <% end %>
-    <%= content_tag(:div, '' , class: 'overlay', onclick: "options['index']=#{ind};gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %>
   </span>
 <% end %>

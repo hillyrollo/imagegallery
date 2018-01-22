@@ -20,5 +20,5 @@
 </script>
 
 <div class="gallery">
-  <%= image_tag(@image.thumbnail_path, title: @image.tag_summary, width: 90, height: 90, skip_pipeline: true, onclick: "gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %><br>
+  <%= image_tag(@image.filename, title: @image.tag_summary, class: 'full', skip_pipeline: true, onclick: "gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %><br>
 </div>
