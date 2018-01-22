@@ -26,10 +26,10 @@
 </script>
 
 <% @images.each_with_index do |i,ind| %>
-  <div class="gallery">
+  <span class="thumb">
     <%= link_to post_path(i), target: :_blank do %>
-      <%= image_tag(i.thumbnail_path, title: i.tag_summary,  skip_pipeline: true) %>
+      <%= image_tag(i.thumbnail_path, class: 'preview', title: i.tag_summary,  skip_pipeline: true) %>
     <% end %>
-    <%= content_tag(:div, '&#9658;'.html_safe, class: 'desc', onclick: "options['index']=#{ind};gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %>
-  </div>
+    <%= content_tag(:div, '' , class: 'overlay', onclick: "options['index']=#{ind};gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %>
+  </span>
 <% end %>

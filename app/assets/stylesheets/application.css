@@ -14,7 +14,111 @@
  *= require_self
  *= require photoswipe
  */
- div.gallery {
+
+
+ /* span.thumb {
+     height: 180px;
+     width: 170px;
+     display: inline-block;
+     float: left;
+     text-align: center;
+     vertical-align: middle;
+ } */
+
+a:hover {
+  color: #666;
+  text-decoration: none;
+}
+
+a:active {
+  color: #666;
+  text-decoration: none;
+}
+
+a:link {
+  color: #FF761C;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+img {
+  border: none;
+  vertical-align: middle;
+}
+
+img.preview {
+  padding:2px;
+  margin:auto;
+}
+
+img.preview:hover {
+  padding:0px;
+  border:2px solid #DDD;
+}
+
+span.thumb {
+  position: relative;
+  height: 180px;
+  width: 180px;
+  float: left;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
+  border: 1px transparent;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 40%;
+  bottom: 40%;
+  left: 40%;
+  right: 40%;
+  height: 20%;
+  width: 20%;
+  opacity: 0;
+  background-color: #008CBA;
+}
+
+.play-button {
+  margin: 0 auto;
+  top: 25%;
+  position: relative;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 2.5em 0 2.5em 5em;
+  border-color: transparent transparent transparent #000;
+  opacity: .75;
+}
+
+ .overlay:hover {
+  opacity: 1;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+ /* div.gallery {
      margin: 5px;
      border: 1px solid #ccc;
      float: left;
@@ -36,8 +140,8 @@
  }
 
  div.desc:hover {
-   background-color: gray;
- }
+   border: 2px solid #777;
+ } */
 
  /* The sidebar menu */
  .sidenav {
