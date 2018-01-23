@@ -1,5 +1,6 @@
 class ImagesController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:create]
+  autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag'
 
   def index
     @images = Image.order("RANDOM()").first(35)
@@ -45,7 +46,7 @@ class ImagesController < ApplicationController
     @list = Image.character_counts.order(:name)
   end
 
-  def view
+  def show
     @image = Image.find_by id: params[:id]
     @artists_hash, @characters_hash, @genres_hash, @series_hash = ImagesHelper.generate_tag_counts([@image])
   end

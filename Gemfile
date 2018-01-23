@@ -31,6 +31,9 @@ gem 'httparty'
 gem 'fastimage'
 gem 'config'
 gem 'acts-as-taggable-on', '~> 5.0'
+gem 'jquery-ui-rails'
+gem 'rails-jquery-autocomplete'
+gem 'jquery-rails'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

@@ -1,11 +1,16 @@
 Rails.application.routes.draw do
   root to: 'images#index'
+  # Path for tag search autocompletion
+  resources :posts, controller: :images, only: [] do
+    get :autocomplete_tag_name, on: :collection
+  end
+
   get '/home' => 'images#index'
   get '/posts' => 'images#search'
   get '/artists' => 'images#artists'
   get '/genres' => 'images#genres'
   get '/characters' => 'images#characters'
-  get '/posts/(:id)' => 'images#view', as: 'post'
+  get '/posts/(:id)' => 'images#show', as: 'post'
   get '/latest' => 'images#latest'
   get '/random' => 'images#random_image'
   get '/random_tag' => 'images#random_tag'
