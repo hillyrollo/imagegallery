@@ -7,7 +7,6 @@ class Image < ApplicationRecord
   end
 
   def thumbnail_path
-    return "thumbs/#{filename}" unless is_video?
     file = filename.split '.'
     file[1] = 'png'
     "thumbs/#{file.join '.'}"

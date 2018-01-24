@@ -1,3 +1,4 @@
+require_relative '../thumbnail_helper.rb'
 namespace :thumbs do
   desc "Generate Thumbnails"
   task generate: :environment do
@@ -6,24 +7,31 @@ namespace :thumbs do
     if !File.exist? thumbs_dir
       puts "Thumbnail directory, #{thumbs_dir}, does not exist. Create it and run this task again"
     end
+    extensions = ['png', 'jpg', 'webm', 'mp4']
+    extensions.each do |ext|
+      create_thumbnails(ext)
+    end
+  end
 
-    Dir["#{Settings.image_directory}/*.png"].each do |image|
-      `convert -thumbnail 180x180 -gravity center -background white -extent 180x180 #{image} #{thumbs_dir}/#{File.basename(image)}`
+  task generate_all: :environment do
+    thumbs_dir = "#{Settings.image_directory}/thumbs"
+    if !File.exist? thumbs_dir
+      puts "Thumbnail directory, #{thumbs_dir}, does not exist. Create it and run this task again"
     end
 
-    Dir["#{Settings.image_directory}/*.jpg"].each do |image|
-      `convert -thumbnail 180x180 -gravity center -background white -extent 180x180 #{image} #{thumbs_dir}/#{File.basename(image)}`
+    extensions = ['png', 'jpg', 'webm', 'mp4']
+    extensions.each do |ext|
+      create_thumbnails(ext, force_new: true)
     end
+  end
+end
 
-    Dir["#{Settings.image_directory}/*.webm"].each do |image|
-      temp_thumbname = "#{thumbs_dir}/TEMP_#{File.basename(image, '.webm')}.png"
-      `ffmpegthumbnailer -i #{image} -s 0 -o #{temp_thumbname}`
-      `convert -thumbnail 180x180 -gravity center -background white -extent 180x180 #{temp_thumbname} #{thumbs_dir}/#{File.basename(image, '.webm')}.png`
-      File.delete(temp_thumbname)
+def create_thumbnails(format, options = {})
+  Dir["#{Settings.image_directory}/*.#{format}"].each do |image|
+    if File.exist?("#{Settings.image_directory}/thumbs/#{File.basename(image).split('.').first}.png")
+      next unless options[:force_new]
     end
-
-    Dir["#{Settings.image_directory}/*.mp4"].each do |image|
-      `convert -thumbnail 180x180 -gravity center -background white -extent 180x180 #{image}[0] #{thumbs_dir}/#{File.basename(image, '.mp4')}.png`
-    end
+    puts "creating thumbnail for #{image}"
+    ThumbnailHelper.create_thumbnail(image)
   end
 end
