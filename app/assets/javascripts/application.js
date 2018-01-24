@@ -48,7 +48,8 @@ function sizeVideo(vp, imgW, imgH) {
   }
   var tLeft = (winW-tWidth)/2;
   var tTop = (winH-tHeight)/2;
-  $('video').css({'left':tLeft, 'top':tTop, 'width':tWidth, 'height':tHeight , visibility: 'visible' })
+
+  $('video').css({'left':0, 'top':0, 'width':vp.x, 'height':vp.y , visibility: 'visible' })
 }
 
 var createPhotoSwipe = function(i) {
