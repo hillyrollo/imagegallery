@@ -7,10 +7,22 @@ class Image < ApplicationRecord
   end
 
   def thumbnail_path
-    "thumbs/#{filename}"
+    return "thumbs/#{filename}" unless is_video?
+    file = filename.split '.'
+    file[1] = 'png'
+    "thumbs/#{file.join '.'}"
   end
 
   def file_path
     "#{Settings.image_directory}/#{filename}"
+  end
+
+  # Current supported video types are mp4 and webm
+  def is_video?
+    ['mp4', 'webm'].include? extension
+  end
+
+  def extension
+    File.extname(filename).split('.').last
   end
 end

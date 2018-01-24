@@ -19,6 +19,12 @@
   };
 </script>
 
+<% if @image.is_video? %>
+  <video class="full" controls autoplay loop width="<%= @image.width %>" height="<%= @image.height %>">
+    <source src="<%= asset_path(@image.filename, type: :image, skip_pipeline: true)%>" type="video/<%= @image.extension %>">
+  </video>
+<% else %>
 <div class="gallery">
   <%= image_tag(@image.filename, title: @image.tag_summary, class: 'full', skip_pipeline: true, onclick: "gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %><br>
 </div>
+<% end %>
