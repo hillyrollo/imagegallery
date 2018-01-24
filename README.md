@@ -4,7 +4,7 @@ A simple and rough app that stores and serves tagged images.
 ### Requirements
 - imagemagick: `apt-get install imagemagick`
 - ffmpeg: `apt-get install ffmpeg`
-- ffmpegthumbnailer: `apt-get install ffmpegthumbnailer`
+- ffmpegthumbnailer: `apt-get install ffmpegthumbnailer` - https://github.com/dirkvdb/ffmpegthumbnailer
 
 ### Sample httpd setup
 apt-get install apache2
