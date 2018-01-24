@@ -7,23 +7,27 @@ module SankakuChannel
     doc = Nokogiri::HTML(resp.body)
     image_path = nil
 
-    doc.css('a').each do |a|
-      next if a.attributes['id'].nil?
-      next unless a.attributes['id'].value == 'image-link'
-      link_type = a.attributes['class'].value
+    if !doc.css('video').empty?
+      image_path = doc.css('video').first['src'].split('?').first
+    else
+      doc.css('a').each do |a|
+        next if a.attributes['id'].nil?
+        next unless a.attributes['id'].value == 'image-link'
+        link_type = a.attributes['class'].value
 
-      if link_type == 'sample'
-        image_path = a.attributes['href'].value
-      elsif link_type == 'full'
-        image_path = a.css('img').first.attributes['src'].value
+        if link_type == 'sample'
+          image_path = a.attributes['href'].value
+        elsif link_type == 'full'
+          image_path = a.css('img').first.attributes['src'].value
+        end
+
+        image_path = image_path.split('?').first
+        break
       end
-
-      image_path = image_path.split('//').last.split('?').first
-      break
     end
 
     return nil, {} if image_path.nil?
-    url = "https://#{image_path}"
+    url = "https:#{image_path}"
 
     genres = []
     artists = []

@@ -52,6 +52,7 @@ class ImagesController < ApplicationController
   end
 
   def create
+    # Only supporting Sankaku for now
     url, tags = SankakuChannel.get_image_properties(params[:url])
     if url.nil?
       render json: { status: 500, message: "Unable to get image from URL #{params[:url]}" }, status: 500
@@ -80,18 +81,24 @@ class ImagesController < ApplicationController
     image = Image.new
     image.filename = image_name
     image.source_url = url
-    image.width, image.height = FastImage.size("#{Settings.image_directory}/#{image_name}")
+    if image.is_video?
+      v = FFMPEG::Movie.new("#{Settings.image_directory}/#{image_name}")
+      image.width = v.width
+      image.height = v.height
+    else
+      image.width, image.height = FastImage.size("#{Settings.image_directory}/#{image_name}")
+    end
 
     image.artist_list = tags['artists']
     image.genre_list = tags['genres']
     image.character_list = tags['characters']
     image.copyright_list = tags['copyrights']
 
-    image = ImageProcessingHelper.scale_image(image)
+    image = ImageProcessingHelper.scale_image(image) unless image.is_video?
     image.save
 
     # Create thumbnail
-    if ImageProcessingHelper.create_thumbnail("#{Settings.image_directory}/#{image_name}", "#{Settings.image_directory}/thumbs") != 0
+    if ThumbnailHelper.create_thumbnail("#{Settings.image_directory}/#{image_name}") != nil
       render json: { status: 500, message: "Error generating thumbnail" }, status: 500
       return
     end
