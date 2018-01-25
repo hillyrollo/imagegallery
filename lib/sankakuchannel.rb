@@ -23,6 +23,7 @@ module SankakuChannel
   end
 
   def self.get_image_properties(url)
+    post_url = url
     image_regex = /<a\ id=image-link\ class=sample\ href=\"\/\/(.*)\?.*\">/
 
     resp = HTTParty.get(url)
@@ -73,7 +74,8 @@ module SankakuChannel
       'artists' => artists,
       'copyrights' => copyrights,
       'characters' => characters,
-      'genres' => genres
+      'genres' => genres,
+      'post_url' => post_url
     }
     return url, tag_hash
   end

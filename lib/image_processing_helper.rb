@@ -14,7 +14,7 @@ module ImageProcessingHelper
       i.height = id.height
 
       url, tags = get_info(image)
-      i.source_url = url
+      i.source_url = tags['post_url']
 
       if tags.nil?
         puts 'nil tags, skipping'
