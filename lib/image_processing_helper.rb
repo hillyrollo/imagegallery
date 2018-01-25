@@ -14,13 +14,13 @@ module ImageProcessingHelper
       i.height = id.height
 
       url, tags = get_info(image)
-      i.source_url = tags['post_url']
 
       if tags.nil?
         puts 'nil tags, skipping'
         FileUtils.move(image, "#{Settings.processing_directory}/not_found/#{File.basename(image)}")
         return
       end
+      i.source_url = tags['post_url']
 
       i.artist_list = tags['artists']
       i.genre_list = tags['genres']
