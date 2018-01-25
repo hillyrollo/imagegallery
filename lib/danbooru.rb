@@ -65,7 +65,8 @@ module Danbooru
 
     def self.get_id_by_md5(md5)
       resp = HTTParty.head("https://danbooru.donmai.us/posts.json?md5=#{md5}", follow_redirects: false)
-      return nil if resp.code == 500
+      puts resp
+      return nil if resp.code != 200
       resp.headers['location'].split('/').last
     end
   end

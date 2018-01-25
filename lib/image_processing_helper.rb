@@ -18,7 +18,7 @@ module ImageProcessingHelper
 
       if tags.nil?
         puts 'nil tags, skipping'
-	FileUtils.move(image, "#{Settings.processing_directory}/not_found/#{File.basename(image)}")
+        FileUtils.move(image, "#{Settings.processing_directory}/not_found/#{File.basename(image)}")
         return
       end
 
@@ -48,25 +48,27 @@ module ImageProcessingHelper
     $?.to_i
   end
 
-  def self.get_info(image)
-    # Try to find a source
-    resp = BooruSearch.file_search(image)
-    return nil if resp == []
-    resp = resp.first
-    provider = resp['source']
-
-    url = ''
-    tags = {}
-    if provider == 'SankakuComplex'
-      url, tags = SankakuChannel.get_image_properties(resp['page'])
-    elsif provider == 'Danbooru'
-      url, tags = Danbooru::Posts.get_image_properties(resp['page'])
-    end
-
-    return nil, nil if tags == {}
-    # resp = Danbooru::Posts.get_by_local_file(image)
-    # return nil if resp.nil?
-    return url, tags
+  def self.get_info(image_path)
+    md5 = Digest::MD5.file(image_path)
+    SankakuChannel.get_image_properties_by_file(image_path)
+    # # Try to find a source
+    # resp = BooruSearch.file_search(image)
+    # return nil if resp == []
+    # resp = resp.first
+    # provider = resp['source']
+    #
+    # url = ''
+    # tags = {}
+    # if provider == 'SankakuComplex'
+    #   url, tags = SankakuChannel.get_image_properties(resp['page'])
+    # elsif provider == 'Danbooru'
+    #   url, tags = Danbooru::Posts.get_image_properties(resp['page'])
+    # end
+    #
+    # return nil, nil if tags == {}
+    # # resp = Danbooru::Posts.get_by_local_file(image)
+    # # return nil if resp.nil?
+    # return url, tags
   end
 
   def self.image_in_db?(image_path)

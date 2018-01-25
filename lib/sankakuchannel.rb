@@ -1,4 +1,27 @@
 module SankakuChannel
+  def self.get_image_properties_by_file(file)
+    md5 = Digest::MD5.file(file)
+    id = get_id_by_md5(md5)
+    return nil, nil if id.nil?
+
+    get_image_properties("https://chan.sankakucomplex.com/post/show/#{id}")
+  end
+
+  def self.get_id_by_md5(md5)
+    url = "https://chan.sankakucomplex.com/?tags=md5:#{md5}"
+    resp = HTTParty.get url
+    return nil if resp.code != 200
+
+    doc = Nokogiri::HTML(resp.body)
+
+    # Find ID
+    thumbs = doc.css('span.thumb')
+    return nil if thumbs.length < 1
+
+    id = thumbs.first.attributes['id'].value
+    id.gsub!(/\D/, '')
+  end
+
   def self.get_image_properties(url)
     image_regex = /<a\ id=image-link\ class=sample\ href=\"\/\/(.*)\?.*\">/
 
