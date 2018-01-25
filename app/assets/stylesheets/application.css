@@ -66,6 +66,12 @@ video.full {
   }
 }
 
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-state-active.ui-button:hover
+{
+  border: 1px solid #000;
+  background: #DDD;
+}
+
 .ui-widget-content .ui-state-focus {
   color: #ffffff;
   text-decoration: none;
@@ -171,32 +177,35 @@ span.thumb {
      padding-top: 20px;
  }
 
- /* The navigation menu links */
- .sidenav a {
-     padding: 0px 8px 6px 16px;
-     text-decoration: none;
+/* The navigation menu links */
+.sidenav a {
+  font-family: Meiryo,Hiragino Kaku Gothic Pro W3,Arial,Helvetica Neue,sans-serif;
+  font-size: 74%;
+  font-weight: bold;
+  padding: 0px 8px 6px 16px;
+  text-decoration: none;
 
-     display: block;
- }
+  display: block;
+}
 
- a.character {
-   color: #0A0;
- }
+a.character {
+  color: #0A0;
+}
 
- a.artist {
-   color: #A00;
- }
+a.artist {
+  color: #A00;
+}
 
- a.genre {
-   color: #FF761C;
- }
+a.genre {
+  color: #FF761C;
+}
 
- a.series {
-   color: #A0A;
- }
+a.series {
+  color: #A0A;
+}
 
- /* Style page content */
- .main {
-     margin-left: 240px; /* Same as the width of the sidebar */
-     padding: 0px 10px;
- }
+/* Style page content */
+.main {
+   margin-left: 240px; /* Same as the width of the sidebar */
+   padding: 0px 10px;
+}
