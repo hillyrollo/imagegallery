@@ -11,6 +11,7 @@ namespace :process do
       puts "#{index+1} of #{file_amt}"
       ImageProcessingHelper.process(image, Settings.image_directory, thumbs_dir)
       puts ''
+      sleep 10
     end
 
     files = Dir["#{Settings.processing_directory}/*.jpg"]
@@ -19,6 +20,7 @@ namespace :process do
       puts "#{index+1} of #{file_amt}"
       ImageProcessingHelper.process(image, Settings.image_directory, thumbs_dir)
       puts ''
+      sleep 10
     end
   end
 
