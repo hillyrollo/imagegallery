@@ -44,7 +44,7 @@ module ImageProcessingHelper
   def self.create_thumbnail(image_path, thumbnail_directory)
     return if File.exist? "#{thumbnail_directory}/#{File.basename(image_path)}"
     puts "Creating thumbnail for #{image_path}"
-    `convert -thumbnail 180x180 -gravity center -background transparent -extent 180x180 #{image_path} #{thumbnail_directory}/#{File.basename(image_path)}`
+    `convert -thumbnail 180x180 -gravity center -background white -extent 180x180 #{image_path} #{thumbnail_directory}/#{File.basename(file_path).split('.').first}.png`
     $?.to_i
   end
 
