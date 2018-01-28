@@ -93,7 +93,7 @@ class ImagesController < ApplicationController
     # Add to database
     image = Image.new
     image.filename = image_name
-    image.source_url = url
+    image.source_url = params[:url]
     if image.is_video?
       v = FFMPEG::Movie.new("#{Settings.image_directory}/#{image_name}")
       image.width = v.width
