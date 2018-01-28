@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/latest' => 'images#latest'
   get '/random' => 'images#random_image'
   get '/random_tag' => 'images#random_tag'
+  get '/check' => 'images#check'
 
   post '/' => 'images#create'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

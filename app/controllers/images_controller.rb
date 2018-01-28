@@ -51,7 +51,20 @@ class ImagesController < ApplicationController
     @artists_hash, @characters_hash, @genres_hash, @series_hash = ImagesHelper.generate_tag_counts([@image])
   end
 
+  def check
+     i = Image.find_by source_url: params[:url]
+     if i.nil?
+       render plain: 'false'
+       return
+     end
+     render plain: 'true'
+  end
+
   def create
+    if !Image.find_by(source_url: params[:url]).nil?
+      render json: { status: 409, message: 'image already exists' }, status: 409
+      return
+    end
     # Only supporting Sankaku for now
     url, tags = SankakuChannel.get_image_properties(params[:url])
     if url.nil?

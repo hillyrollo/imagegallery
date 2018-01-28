@@ -3,6 +3,7 @@
   var items = [
       <% @images.each do |image| %>
         {
+            currentRotation: 0,
             <% if image.is_video? %>
               videosrc: "<%= asset_path(image.filename, type: :image, skip_pipeline: true)%>",
               id: "vid-<%= image.id %>",
@@ -22,7 +23,7 @@
 <% @images.each_with_index do |i,ind| %>
   <span class="thumb">
     <%= link_to post_path(i), target: :_blank do %>
-      <%= content_tag(:div, '', class: 'play-button', onclick: "var pswp = createPhotoSwipe(#{ind});pswp.init();return false;") %>
+      <%= content_tag(:div, '', class: 'play-button', onclick: "pswp = createPhotoSwipe(#{ind});pswp.init();return false;") %>
       <%= image_tag(i.thumbnail_path, class: 'preview', title: i.tag_summary,  skip_pipeline: true) %>
     <% end %>
   </span>

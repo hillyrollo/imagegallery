@@ -25,6 +25,6 @@
   </video>
 <% else %>
 <div class="gallery">
-  <%= image_tag(@image.filename, title: @image.tag_summary, class: 'full', skip_pipeline: true, onclick: "gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);gallery.init();return false;") %><br>
+  <%= image_tag(@image.filename, title: @image.tag_summary, class: 'full', skip_pipeline: true, onclick: "pswp = createPhotoSwipe(0);pswp.init();return false;") %><br>
 </div>
 <% end %>
