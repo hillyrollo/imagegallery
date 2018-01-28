@@ -54,7 +54,7 @@ class ImagesController < ApplicationController
   def check
      i = Image.find_by source_url: params[:url]
      if i.nil?
-       render plain: 'false'
+       render plain: ''
        return
      end
      render plain: 'true'
