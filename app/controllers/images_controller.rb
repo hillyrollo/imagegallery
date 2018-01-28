@@ -57,7 +57,7 @@ class ImagesController < ApplicationController
        render plain: ''
        return
      end
-     render plain: 'true'
+     render plain: params[:url].split('/').last
   end
 
   def create
