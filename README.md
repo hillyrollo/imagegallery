@@ -34,3 +34,5 @@ First, replace the `<HOST>`value at the end of the script to match your server. 
 Included in the `tampermonkey` directory is a set of scripts to make life easier when browsing sites.
 #### sankaku_hightlight.js
 Marks images you already have in your local app directly in browser when using the Sankaku channel. To use, simply change the URL in the file to point to your image gallery and add it to TamperMonkey. It will draw a green background behind any images you're browsing that you already have.
+#### sankaku_add.js
+Adds a button to any post on the Sankaku channel to add that image to your image gallery instance. To use, replace the URL to point to your instance.
