@@ -204,6 +204,10 @@ a.series {
   color: #A0A;
 }
 
+a.medium {
+  color: #2585BB;
+}
+
 /* Style page content */
 .main {
    margin-left: 240px; /* Same as the width of the sidebar */

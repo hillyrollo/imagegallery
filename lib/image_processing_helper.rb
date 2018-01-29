@@ -26,6 +26,7 @@ module ImageProcessingHelper
       i.genre_list = tags['genres']
       i.character_list = tags['characters']
       i.copyright_list = tags['copyrights']
+      i.medium_list = tags['mediums']
 
       i.save
 

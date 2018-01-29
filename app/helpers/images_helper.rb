@@ -4,6 +4,7 @@ module ImagesHelper
     characters_hash = {}
     genres_hash = {}
     series_hash = {}
+    mediums_hash = {}
 
     images.each do |image|
       image.artists.each do |a|
@@ -18,8 +19,11 @@ module ImagesHelper
       image.copyrights.each do |c|
         series_hash[c.name] = c.taggings_count if series_hash[c.name].nil?
       end
+      image.mediums.each do |m|
+        mediums_hash[m.name] = m.taggings_count if mediums_hash[m.name].nil?
+      end
     end
 
-    return artists_hash.sort.to_h, characters_hash.sort.to_h, genres_hash.sort.to_h, series_hash.sort.to_h
+    return artists_hash.sort.to_h, characters_hash.sort.to_h, genres_hash.sort.to_h, series_hash.sort.to_h, mediums_hash.sort.to_h
   end
 end

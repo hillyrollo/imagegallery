@@ -92,6 +92,7 @@
       <%= link_to 'Artists', artists_path %>
       <%= link_to 'Characters', characters_path %>
       <%= link_to 'Genres', genres_path %>
+      <%= link_to 'Mediums', mediums_path %>
 
       <hr>
 
@@ -110,6 +111,12 @@
       <% if @artists_hash %>
         <% @artists_hash.keys.each do |k| %>
           <%= link_to "#{k}(#{@artists_hash[k]})", posts_path(search: k), class: 'artist' %>
+        <% end %>
+      <% end %>
+
+      <% if @mediums_hash %>
+        <% @mediums_hash.keys.each do |k| %>
+          <%= link_to "#{k}(#{@mediums_hash[k]})", posts_path(search: k), class: 'medium' %>
         <% end %>
       <% end %>
 

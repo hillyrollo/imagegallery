@@ -57,6 +57,7 @@ module SankakuChannel
     artists = []
     characters = []
     copyrights = []
+    mediums = []
     doc.css('li').each do |n|
       next unless n.attributes['class']
       tag_type = n.attributes['class'].value
@@ -68,13 +69,15 @@ module SankakuChannel
       copyrights << URI.unescape(tag_value) if tag_type == 'tag-type-copyright'
       characters << URI.unescape(tag_value) if tag_type == 'tag-type-character'
       genres << URI.unescape(tag_value) if tag_type == 'tag-type-general'
+      mediums << URI.unescape(tag_value) if tag_type == 'tag-type-medium'
     end
-
+    puts "mediums list: #{mediums}"
     tag_hash = {
       'artists' => artists,
       'copyrights' => copyrights,
       'characters' => characters,
       'genres' => genres,
+      'mediums' => mediums,
       'post_url' => post_url
     }
     return url, tag_hash
