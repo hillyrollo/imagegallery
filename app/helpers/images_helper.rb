@@ -6,6 +6,9 @@ module ImagesHelper
     series_hash = {}
     mediums_hash = {}
 
+    # Only generate tags for the first 20 images
+    images = images.first(20)
+
     images.each do |image|
       image.artists.each do |a|
         artists_hash[a.name] = a.taggings_count if artists_hash[a.name].nil?

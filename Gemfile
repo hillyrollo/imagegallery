@@ -35,6 +35,7 @@ gem 'jquery-ui-rails'
 gem 'rails-jquery-autocomplete'
 gem 'jquery-rails'
 gem 'streamio-ffmpeg'
+gem 'yaml_db'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
@@ -42,6 +43,10 @@ gem 'streamio-ffmpeg'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+group :production do
+  gem 'mysql2'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
