@@ -34,23 +34,22 @@ module SankakuChannel
     if !doc.css('video').empty?
       image_path = doc.css('video').first['src'].split('?').first
     else
-      doc.css('a').each do |a|
-        next if a.attributes['id'].nil?
-        next unless a.attributes['id'].value == 'image-link'
-        link_type = a.attributes['class'].value
-
-        if link_type == 'sample'
-          image_path = a.attributes['href'].value
-        elsif link_type == 'full'
-          image_path = a.css('img').first.attributes['src'].value
-        end
-
-        image_path = image_path.split('?').first
-        break
+      if doc.at_css('[id="image-link"]')
+        ele = doc.at_css('[id="image-link"]')
+        link_type = ele.attributes['class'].value
+          if link_type == 'sample'
+            image_path = ele.attributes['href'].value
+          elsif link_type == 'full'
+            image_path = ele.css('img').first.attributes['src'].value
+          end
+      elsif doc.at_css('[id="highres"]')
+        image_path = doc.at_css('[id="highres"]').attributes['href'].value
       end
     end
 
     return nil, {} if image_path.nil?
+    image_path = image_path.split('?').first
+
     url = "https:#{image_path}"
 
     genres = []
