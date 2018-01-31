@@ -3,22 +3,22 @@ class ImagesController < ApplicationController
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag'
 
   def index
-    @images = Image.order("RANDOM()").first(35)
+    @images = Image.offset(rand(Image.count) - 25).first(25).shuffle
     @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash = ImagesHelper.generate_tag_counts(@images)
   end
 
   def latest
-    @images = Image.last(35).reverse
+    @images = Image.last(25).reverse
     @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash = ImagesHelper.generate_tag_counts(@images)
   end
 
   def random_tag
-    tag = Image.all_tags.order('RANDOM()').first.name
+    tag = Image.all_tags.offset(rand(Image.all_tags.count)).first.name
     redirect_to controller: 'images', action: 'search', search: tag
   end
 
   def random_image
-    image = Image.order("RANDOM()").first
+    image = Image.offset(rand(Image.count)).first
     redirect_to(post_path(image))
   end
 
