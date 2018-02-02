@@ -136,6 +136,10 @@ var createPhotoSwipe = function(i) {
   pswp.listen('close', function () {
     checkVideo();
     $("video").each(function () { this.pause() });
+    // Reset all images to not be rotated
+    for(i = 0; i < pswp.items.length; i++) {
+      pswp.items[i].rotated = false;
+    }
    });
 
   pswp.listen('beforeChange', function () {
