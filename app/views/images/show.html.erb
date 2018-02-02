@@ -6,7 +6,8 @@
         {
             src: "<%= asset_path(@image.filename, type: :image, skip_pipeline: true)%>",
             w: <%= @image.width %>,
-            h: <%= @image.height %>
+            h: <%= @image.height %>,
+            rotated: false
         }
   ];
 
