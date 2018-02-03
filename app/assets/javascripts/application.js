@@ -29,35 +29,45 @@ function checkVideo() {
 }
 
 // Function to rotate the current image 90 degrees counter clockwise
-// TODO: Allow rotation for all aspect ratios
 function rotateImage(){
   vp = pswp.viewportSize;
 
-  imageAspectRatio = pswp.currItem.w / pswp.currItem.h
-
-  // For now, only rotating images that are less than 1:1 width:height ratio
-  if(imageAspectRatio < 1) {
-      var scale_factor
-
-      // Get the max scale factors for the X and Y axis
-      scaleFactorX = vp.x / (pswp.currItem.h * pswp.currItem.fitRatio)
-      scaleFactorY = vp.y / (pswp.currItem.w * pswp.currItem.fitRatio)
-
-      // Choose whichever scaling factor is the lowest
-      // This is the largest the image can get in the current window while preserving aspect ratio
-      if(scaleFactorX >= scaleFactorY) {
-        scaleFactor = scaleFactorY
-      } else {
-        scaleFactor = scaleFactorX
-      }
-
-      // Apply the CSS to rotate and scale the image
-      pswp.currItem.scaleFactor = scaleFactor;
-      $(".pswp__img").css("transform", "rotate(-90deg) scale(" + scaleFactor + ")");
-      pswp.currItem.rotated = true;
-  } else {
-    console.log('Image is in correct orientation, not rotating')
+  var mediaType = "image";
+  if(typeof(pswp.currItem.videosrc) !== "undefined") {
+    mediaType = "video";
   }
+
+  // Get the max scale factors for the X and Y axis
+  if (mediaType == "image") {
+    scaleFactorX = vp.x / (pswp.currItem.h * pswp.currItem.fitRatio)
+    scaleFactorY = vp.y / (pswp.currItem.w * pswp.currItem.fitRatio)
+  } else if (mediaType == "video") {
+    videoAspectRatio = pswp.currItem.vw / pswp.currItem.vh
+    currentVideo = $("#" + pswp.currItem.id)
+    currentVideoX = currentVideo.css("width").split("px")[0]
+    currentVideoY = currentVideo.css("height").split("px")[0]
+
+    scaleFactorX = vp.x / currentVideoY
+    scaleFactorY = vp.y / currentVideoX
+  }
+
+  var scale_factor;
+  // Choose whichever scaling factor is the lowest
+  // This is the largest the image can get in the current window while preserving aspect ratio
+  if(scaleFactorX >= scaleFactorY) {
+    scaleFactor = scaleFactorY
+  } else {
+    scaleFactor = scaleFactorX
+  }
+
+  // Apply the CSS to rotate and scale the image
+  pswp.currItem.scaleFactor = scaleFactor;
+  if(typeof(pswp.currItem.videosrc) != "undefined") {
+    $("video").css("transform", "rotate(-90deg) scale(" + scaleFactor + ")");
+  } else {
+    $(".pswp__img").css("transform", "rotate(-90deg) scale(" + scaleFactor + ")");
+  }
+  pswp.currItem.rotated = true;
 }
 
 // Set up onclick event for the rotate button
@@ -134,6 +144,8 @@ var createPhotoSwipe = function(i) {
   });
 
   pswp.listen('close', function () {
+    console.log('close called')
+
     checkVideo();
     $("video").each(function () { this.pause() });
     // Reset all images to not be rotated
@@ -143,6 +155,8 @@ var createPhotoSwipe = function(i) {
    });
 
   pswp.listen('beforeChange', function () {
+    console.log('beforechange called')
+
     checkVideo();
    });
   return pswp;
