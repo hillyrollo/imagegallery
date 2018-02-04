@@ -97,7 +97,7 @@ function scaleAndTranslateVideo(item) {
 
   if(item.rotated == true) {
     scaleDeltaX = (item.vh * scaleFactor) - item.vh
-    scaleDeltaY = (item.vh * scaleFactor) - item.vw
+    scaleDeltaY = (item.vw * scaleFactor) - item.vw
     console.log("scaling delta x: ", scaleDeltaX)
     console.log("scaling delta y: ", scaleDeltaY)
     translateY = (vp.x / 2) - (item.vh * scaleFactor) / 2 - scaleDeltaX
@@ -125,12 +125,15 @@ function scaleAndTranslateVideo(item) {
     console.log("y offset: ", offsetY)
 
     initialXTransform = (item.vw * scaleFactor) + offsetX
+    initialYTransform = (item.vh * scaleFactor) + offsetY
     css['transform'] = " translateX(-" + initialXTransform + "px)"
     css['transform'] += " scale(" + scaleFactor + ")"
 
     finalYOffset = (vp.x - item.vh * scaleFactor) / 2
+    finalXOffset = (vp.y - item.vw * scaleFactor) / 2
     css['transform'] += " rotate(-90deg)"
     css['transform'] += " translateY(" + finalYOffset + "px)"
+    css['transform'] += " translateX(-" + finalXOffset + "px)"
   } else {
     css['transform-origin'] = "top left"
     css['transform'] = " translateX(" + translateX + "px)"
