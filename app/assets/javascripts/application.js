@@ -42,13 +42,9 @@ function rotateImage(){
     scaleFactorX = vp.x / (pswp.currItem.h * pswp.currItem.fitRatio)
     scaleFactorY = vp.y / (pswp.currItem.w * pswp.currItem.fitRatio)
   } else if (mediaType == "video") {
-    videoAspectRatio = pswp.currItem.vw / pswp.currItem.vh
-    currentVideo = $("#" + pswp.currItem.id)
-    currentVideoX = currentVideo.css("width").split("px")[0]
-    currentVideoY = currentVideo.css("height").split("px")[0]
-
-    scaleFactorX = vp.x / currentVideoY
-    scaleFactorY = vp.y / currentVideoX
+    pswp.currItem.rotated = true
+    scaleAndTranslateVideo(pswp.currItem)
+    return
   }
 
   var scale_factor;
@@ -63,7 +59,7 @@ function rotateImage(){
   // Apply the CSS to rotate and scale the image
   pswp.currItem.scaleFactor = scaleFactor;
   if(typeof(pswp.currItem.videosrc) != "undefined") {
-    $("video").css("transform", "rotate(-90deg) scale(" + scaleFactor + ")");
+    //$("video").css("transform", "rotate(-90deg) scale(" + scaleFactor + ")");
   } else {
     $(".pswp__img").css("transform", "rotate(-90deg) scale(" + scaleFactor + ")");
   }
@@ -73,7 +69,79 @@ function rotateImage(){
 // Set up onclick event for the rotate button
 $(document).on('click', '.pswp__button.pswp__button--rotate', rotateImage);
 
+
+function getVideoScaleFactor(vp, imgW, imgH, rotated) {
+  if(rotated == false) {
+    sfX = vp.x / imgW;
+    sfY = vp.y / imgH;
+  } else {
+    sfX = vp.x / imgH;
+    sfY = vp.y / imgW;
+  }
+
+  if(sfX >= sfY) {
+    scaleFactor = sfY;
+  } else {
+    scaleFactor = sfX;
+  }
+  console.log(scaleFactor)
+  return scaleFactor;
+}
+
+function scaleAndTranslateVideo(item) {
+  vp = pswp.viewportSize
+  video = $("#" + item.id)
+  video.css("transform", "")
+
+  scaleFactor = getVideoScaleFactor(vp, item.vw, item.vh, item.rotated)
+
+  if(item.rotated == true) {
+    scaleDeltaX = (item.vh * scaleFactor) - item.vh
+    scaleDeltaY = (item.vh * scaleFactor) - item.vw
+    console.log("scaling delta x: ", scaleDeltaX)
+    console.log("scaling delta y: ", scaleDeltaY)
+    translateY = (vp.x / 2) - (item.vh * scaleFactor) / 2 - scaleDeltaX
+    translateX = (vp.y / 2) - (item.vw * scaleFactor) / 2
+  } else {
+    translateX = (vp.x / 2) - (item.vw * scaleFactor) / 2
+    translateY = (vp.y / 2) - (item.vh * scaleFactor) / 2
+  }
+
+  css = {}
+  css['width'] = item.vw
+  css['height'] = item.vh
+
+  if(item.rotated == true) {
+    css['transform-origin'] = "top right"
+
+    css['transform'] = " scale(" + scaleFactor + ")"
+    video.css(css)
+    console.log(video.position())
+    offsetX = video.position().left
+    offsetY = video.position().top
+
+
+    console.log("x offset: ", offsetX)
+    console.log("y offset: ", offsetY)
+
+    initialXTransform = (item.vw * scaleFactor) + offsetX
+    css['transform'] = " translateX(-" + initialXTransform + "px)"
+    css['transform'] += " scale(" + scaleFactor + ")"
+
+    finalYOffset = (vp.x - item.vh * scaleFactor) / 2
+    css['transform'] += " rotate(-90deg)"
+    css['transform'] += " translateY(" + finalYOffset + "px)"
+  } else {
+    css['transform-origin'] = "top left"
+    css['transform'] = " translateX(" + translateX + "px)"
+    css['transform'] += " translateY(" + translateY + "px)"
+    css['transform'] += " scale(" + scaleFactor + ")"
+  }
+  video.css(css)
+}
+
 function sizeVideo(vp, imgW, imgH) {
+  return;
   var winW = vp.x;
   var winH = vp.y;
   var imgRatio = imgW / imgH;
@@ -113,8 +181,10 @@ var createPhotoSwipe = function(i) {
 
   pswp.listen('afterChange', function() {
     checkVideo();
+    scaleAndTranslateVideo(pswp.currItem)
     if (typeof(pswp.currItem.videosrc) !== "undefined") {
-       sizeVideo(pswp.viewportSize, pswp.currItem.vw,  pswp.currItem.vh);
+       //sizeVideo(pswp.viewportSize, pswp.currItem.vw,  pswp.currItem.vh);
+       $("#" + pswp.currItem.id).css({'left':0, 'top':0, 'width':pswp.currItem.vw, 'height':pswp.currItem.vh , visibility: 'visible' })
        $("#" + pswp.currItem.id).get(0).play();
        videoRunning = true;
     }
@@ -132,8 +202,9 @@ var createPhotoSwipe = function(i) {
   });
 
   pswp.listen('resize', function () {
+    scaleAndTranslateVideo(pswp.currItem)
     if (videoRunning) {
-      sizeVideo(pswp.viewportSize, pswp.currItem.vw,  pswp.currItem.vh);
+      //sizeVideo(pswp.viewportSize, pswp.currItem.vw,  pswp.currItem.vh);
     }
 
     // If the image has been rotated, we need to run the rotate code again to make
@@ -144,8 +215,6 @@ var createPhotoSwipe = function(i) {
   });
 
   pswp.listen('close', function () {
-    console.log('close called')
-
     checkVideo();
     $("video").each(function () { this.pause() });
     // Reset all images to not be rotated
@@ -155,8 +224,6 @@ var createPhotoSwipe = function(i) {
    });
 
   pswp.listen('beforeChange', function () {
-    console.log('beforechange called')
-
     checkVideo();
    });
   return pswp;
