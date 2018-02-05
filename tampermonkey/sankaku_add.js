@@ -8,6 +8,15 @@
 // @grant GM_xmlhttpRequest
 // ==/UserScript==
 
+// Bind 'd' key to trigger the download button
+$(document).keypress(function(event) {
+    if(event.charCode != 100) {
+        return;
+    } else {
+        document.getElementById("ig-add").click();
+    }
+});
+
 (function() {
     'use strict';
 
