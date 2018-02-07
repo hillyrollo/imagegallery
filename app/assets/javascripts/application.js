@@ -19,8 +19,9 @@
 //= require jquery-ui/widgets/autocomplete
 //= require autocomplete-rails
 var videoRunning = false;
-var pswp
+var pswp;
 
+// Pauses all running videos
 function checkVideo() {
   if (videoRunning) {
     $("video").each(function () { this.pause() });
@@ -28,55 +29,90 @@ function checkVideo() {
   }
 }
 
-// Function to rotate the current image 90 degrees counter clockwise
-function rotateImage(){
+// Rotates the current item by 90 degrees clockwise.
+function rotateCurrentItem() {
+  if(pswp.currItem.rotation == 270) {
+    pswp.currItem.rotation = 0;
+  } else {
+    pswp.currItem.rotation += 90;
+  }
+}
+
+// Function to scale the current image to the size of the screen, accounting for rotation
+function scaleCurrentItem() {
   vp = pswp.viewportSize;
 
-  var mediaType = "image";
+  // If the current item is a video, run the specific function to scale the video
+  // videos have a separate process to scale
   if(typeof(pswp.currItem.videosrc) !== "undefined") {
-    mediaType = "video";
+    scaleCurrentVideo();
+    return;
   }
 
-  // Get the max scale factors for the X and Y axis
-  if (mediaType == "image") {
-    scaleFactorX = vp.x / (pswp.currItem.h * pswp.currItem.fitRatio)
-    scaleFactorY = vp.y / (pswp.currItem.w * pswp.currItem.fitRatio)
-  } else if (mediaType == "video") {
-    pswp.currItem.rotated = true
-    scaleAndTranslateVideo(pswp.currItem)
-    return
+  if(pswp.currItem.rotation == 0 || pswp.currItem.rotation == 180) {
+    scaleFactorX = vp.x / (pswp.currItem.w * pswp.currItem.fitRatio);
+    scaleFactorY = vp.y / (pswp.currItem.h * pswp.currItem.fitRatio);
+  } else {
+    scaleFactorX = vp.x / (pswp.currItem.h * pswp.currItem.fitRatio);
+    scaleFactorY = vp.y / (pswp.currItem.w * pswp.currItem.fitRatio);
   }
 
-  var scale_factor;
   // Choose whichever scaling factor is the lowest
   // This is the largest the image can get in the current window while preserving aspect ratio
   if(scaleFactorX >= scaleFactorY) {
-    scaleFactor = scaleFactorY
+    scaleFactor = scaleFactorY;
   } else {
-    scaleFactor = scaleFactorX
+    scaleFactor = scaleFactorX;
   }
 
   // Apply the CSS to rotate and scale the image
   pswp.currItem.scaleFactor = scaleFactor;
-  if(typeof(pswp.currItem.videosrc) != "undefined") {
-    //$("video").css("transform", "rotate(-90deg) scale(" + scaleFactor + ")");
-  } else {
-    $(".pswp__img").css("transform", "rotate(-90deg) scale(" + scaleFactor + ")");
-  }
-  pswp.currItem.rotated = true;
+  $(".pswp__img").css("transform", "rotate("+ pswp.currItem.rotation +"deg) scale(" + scaleFactor + ")");
 }
 
-// Set up onclick event for the rotate button
-$(document).on('click', '.pswp__button.pswp__button--rotate', rotateImage);
+// Scales the current video to fit the current screen. Takes into account image size, screen size, and rotation
+function scaleCurrentVideo() {
+  vp = pswp.viewportSize;
+  video = $("#" + pswp.currItem.id);
+  // Reset any current transformations before applying the new one
+  video.css("transform", "");
 
+  scaleFactor = getCurrentVideoScaleFactor();
 
-function getVideoScaleFactor(vp, imgW, imgH, rotated) {
-  if(rotated == false) {
-    sfX = vp.x / imgW;
-    sfY = vp.y / imgH;
+  css = {};
+  css['width'] = pswp.currItem.vw;
+  css['height'] = pswp.currItem.vh;
+
+  if(pswp.currItem.rotation == 90 || pswp.currItem.rotation == 270) {
+    // Translate x y
+    translateX = (vp.x / 2) - (pswp.currItem.vw / 2);
+    translateY = (vp.y / 2) - (pswp.currItem.vh / 2);
+    css['transform'] = "translate(" + translateX + "px, " + translateY + "px)";
+    // rotate
+    css['transform'] += " rotate("+ pswp.currItem.rotation +"deg)";
+    // scale
+    css['transform'] += " scale(" + scaleFactor + ")";
   } else {
-    sfX = vp.x / imgH;
-    sfY = vp.y / imgW;
+    translateX = (vp.x / 2) - (pswp.currItem.vw / 2);
+    translateY = (vp.y / 2) - (pswp.currItem.vh / 2);
+
+    css['transform'] = " translateX(" + translateX + "px)";
+    css['transform'] += " translateY(" + translateY + "px)";
+    css['transform'] += " rotate("+ pswp.currItem.rotation +"deg)";
+    css['transform'] += " scale(" + scaleFactor + ")";
+  }
+
+  video.css(css)
+}
+
+// Gets the maximum scale factor of a video, accounting for rotation and screen size
+function getCurrentVideoScaleFactor() {
+  if(pswp.currItem.rotation == 0 || pswp.currItem.rotation == 180) {
+    sfX = vp.x / pswp.currItem.vw;
+    sfY = vp.y / pswp.currItem.vh;
+  } else {
+    sfX = vp.x / pswp.currItem.vh;
+    sfY = vp.y / pswp.currItem.vw;
   }
 
   if(sfX >= sfY) {
@@ -84,89 +120,12 @@ function getVideoScaleFactor(vp, imgW, imgH, rotated) {
   } else {
     scaleFactor = sfX;
   }
-  console.log(scaleFactor)
   return scaleFactor;
 }
 
-function scaleAndTranslateVideo(item) {
-  vp = pswp.viewportSize
-  video = $("#" + item.id)
-  video.css("transform", "")
-
-  scaleFactor = getVideoScaleFactor(vp, item.vw, item.vh, item.rotated)
-
-  if(item.rotated == true) {
-    scaleDeltaX = (item.vh * scaleFactor) - item.vh
-    scaleDeltaY = (item.vw * scaleFactor) - item.vw
-    console.log("scaling delta x: ", scaleDeltaX)
-    console.log("scaling delta y: ", scaleDeltaY)
-    translateY = (vp.x / 2) - (item.vh * scaleFactor) / 2 - scaleDeltaX
-    translateX = (vp.y / 2) - (item.vw * scaleFactor) / 2
-  } else {
-    translateX = (vp.x / 2) - (item.vw * scaleFactor) / 2
-    translateY = (vp.y / 2) - (item.vh * scaleFactor) / 2
-  }
-
-  css = {}
-  css['width'] = item.vw
-  css['height'] = item.vh
-
-  if(item.rotated == true) {
-    css['transform-origin'] = "top right"
-
-    css['transform'] = " scale(" + scaleFactor + ")"
-    video.css(css)
-    console.log(video.position())
-    offsetX = video.position().left
-    offsetY = video.position().top
-
-
-    console.log("x offset: ", offsetX)
-    console.log("y offset: ", offsetY)
-
-    initialXTransform = (item.vw * scaleFactor) + offsetX
-    initialYTransform = (item.vh * scaleFactor) + offsetY
-    css['transform'] = " translateX(-" + initialXTransform + "px)"
-    css['transform'] += " scale(" + scaleFactor + ")"
-
-    finalYOffset = (vp.x - item.vh * scaleFactor) / 2
-    finalXOffset = (vp.y - item.vw * scaleFactor) / 2
-    css['transform'] += " rotate(-90deg)"
-    css['transform'] += " translateY(" + finalYOffset + "px)"
-    css['transform'] += " translateX(-" + finalXOffset + "px)"
-  } else {
-    css['transform-origin'] = "top left"
-    css['transform'] = " translateX(" + translateX + "px)"
-    css['transform'] += " translateY(" + translateY + "px)"
-    css['transform'] += " scale(" + scaleFactor + ")"
-  }
-  video.css(css)
-}
-
-function sizeVideo(vp, imgW, imgH) {
-  return;
-  var winW = vp.x;
-  var winH = vp.y;
-  var imgRatio = imgW / imgH;
-  var tWidth = winW;
-  var tHeight = winH;
-  function scaleWB() { tWidth = winW; tHeight = tWidth / imgRatio; }
-  function scaleBW() { tHeight = winH; tWidth = tHeight * imgRatio; }
-  if (imgRatio >= 1) {
-  scaleWB();
-    if (tHeight > winH) { scaleBW(); }
-    if (tWidth > imgW) { tWidth = imgW; tHeight = imgH; }
-  }
-  else {
-  scaleBW();
-    if (tWidth > winW) { scaleWB(); }
-    if (tHeight > imgH) { tWidth = imgW; tHeight = imgH; }
-  }
-  var tLeft = (winW-tWidth)/2;
-  var tTop = (winH-tHeight)/2;
-
-  $('video').css({'left':0, 'top':0, 'width':vp.x, 'height':vp.y , visibility: 'visible' })
-}
+// Set up onclick event for the rotate button
+// Rotates the image by 90 degrees and scales it to the screen
+$(document).on('click', '.pswp__button.pswp__button--rotate', function() { rotateCurrentItem(); scaleCurrentItem(); });
 
 var createPhotoSwipe = function(i) {
   var pswpElement = document.querySelectorAll('.pswp')[0];
@@ -182,52 +141,39 @@ var createPhotoSwipe = function(i) {
   // Initializes and opens PhotoSwipe
   var pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
 
+  // Set up event listeners
+  // When a slide changes, we have to fit the image/video to the screen
   pswp.listen('afterChange', function() {
-    checkVideo();
-    scaleAndTranslateVideo(pswp.currItem)
+    scaleCurrentItem();
+    // If the new slide is a video, perform the correct scaling and start playing
     if (typeof(pswp.currItem.videosrc) !== "undefined") {
-       //sizeVideo(pswp.viewportSize, pswp.currItem.vw,  pswp.currItem.vh);
-       $("#" + pswp.currItem.id).css({'left':0, 'top':0, 'width':pswp.currItem.vw, 'height':pswp.currItem.vh , visibility: 'visible' })
-       $("#" + pswp.currItem.id).get(0).play();
-       videoRunning = true;
-    }
-    // Remove rotation/scaling if the image has not been rotated before
-    if (pswp.currItem.rotated === false){
-      $(".pswp__img").css("transform", "");
-    } else {
-      // Otherwise, apply the rotation or recalculate it if not defined
-      if (typeof(pswp.currItem.scaleFactor) != "undefined") {
-        $(".pswp__img").css("transform", "rotate(-90deg) scale(" + pswp.currItem.scaleFactor + ")");
-      } else {
-        rotateImage();
-      }
+      checkVideo();
+      $("#" + pswp.currItem.id).css({ visibility: 'visible' });
+      $("#" + pswp.currItem.id).get(0).play();
+      videoRunning = true;
     }
   });
 
+  // When the view port is resized, we need to fit the image/video to screen
   pswp.listen('resize', function () {
-    scaleAndTranslateVideo(pswp.currItem)
-    if (videoRunning) {
-      //sizeVideo(pswp.viewportSize, pswp.currItem.vw,  pswp.currItem.vh);
-    }
-
-    // If the image has been rotated, we need to run the rotate code again to make
-    // the rotated image fit the adjusted screen
-    if(pswp.currItem.rotated === true) {
-      rotateImage();
-    }
+    scaleCurrentItem();
   });
 
+  // When photoswipe is closed, we need to stop all videos, and reset rotation for all items
   pswp.listen('close', function () {
     checkVideo();
+    // Make sure all videos are paused before closing
     $("video").each(function () { this.pause() });
     // Reset all images to not be rotated
     for(i = 0; i < pswp.items.length; i++) {
-      pswp.items[i].rotated = false;
+      pswp.items[i].rotation = 0;
     }
-   });
+  });
 
+  // Before changing items, we have to stop all videos playing
   pswp.listen('beforeChange', function () {
     checkVideo();
-   });
+  });
+
   return pswp;
 }
