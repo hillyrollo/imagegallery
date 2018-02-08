@@ -30,7 +30,7 @@ function checkVideo() {
 }
 
 // Rotates the current item by 90 degrees clockwise.
-function rotateCurrentItem(direction = "c") {
+function rotateCurrentItem(direction) {
   // Clockwise rotation(default)
   if(direction == "c") {
     if(pswp.currItem.rotation == 270) {
@@ -135,7 +135,7 @@ function getCurrentVideoScaleFactor() {
 
 // Set up onclick event for the rotate button
 // Rotates the image by 90 degrees and scales it to the screen
-$(document).on('click', '.pswp__button.pswp__button--rotate', function() { rotateCurrentItem(); scaleCurrentItem(); });
+$(document).on('click', '.pswp__button.pswp__button--rotate', function() { rotateCurrentItem("c"); scaleCurrentItem(); });
 $(document).on('click', '.pswp__button.pswp__button--rotate-cc', function() { rotateCurrentItem("cc"); scaleCurrentItem(); });
 
 var createPhotoSwipe = function(i) {
