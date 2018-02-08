@@ -30,11 +30,21 @@ function checkVideo() {
 }
 
 // Rotates the current item by 90 degrees clockwise.
-function rotateCurrentItem() {
-  if(pswp.currItem.rotation == 270) {
-    pswp.currItem.rotation = 0;
+function rotateCurrentItem(direction = "c") {
+  // Clockwise rotation(default)
+  if(direction == "c") {
+    if(pswp.currItem.rotation == 270) {
+      pswp.currItem.rotation = 0;
+    } else {
+      pswp.currItem.rotation += 90;
+    }
   } else {
-    pswp.currItem.rotation += 90;
+    // Counter-clockwise rotation
+    if(pswp.currItem.rotation == 0) {
+      pswp.currItem.rotation = 270;
+    } else {
+      pswp.currItem.rotation -= 90;
+    }
   }
 }
 
@@ -126,6 +136,7 @@ function getCurrentVideoScaleFactor() {
 // Set up onclick event for the rotate button
 // Rotates the image by 90 degrees and scales it to the screen
 $(document).on('click', '.pswp__button.pswp__button--rotate', function() { rotateCurrentItem(); scaleCurrentItem(); });
+$(document).on('click', '.pswp__button.pswp__button--rotate-cc', function() { rotateCurrentItem("cc"); scaleCurrentItem(); });
 
 var createPhotoSwipe = function(i) {
   var pswpElement = document.querySelectorAll('.pswp')[0];

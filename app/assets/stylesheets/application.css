@@ -15,6 +15,16 @@
  *= require photoswipe
  */
 
+button.pswp__button.pswp__button--rotate-cc {
+  background: url('/assets/rotatecc.png') 50% 50% no-repeat;
+  background-size: 15px 15px;
+}
+
+button.pswp__button.pswp__button--rotate {
+  background: url('/assets/rotate.png') 50% 50% no-repeat;
+  background-size: 15px 15px;
+}
+
 video {
   visibility: hidden;
   position: absolute;
@@ -66,8 +76,7 @@ video.full {
   }
 }
 
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-state-active.ui-button:hover
-{
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-state-active.ui-button:hover {
   border: 1px solid #000;
   background: #DDD;
 }
@@ -165,17 +174,17 @@ span.thumb {
 }
 
  /* The sidebar menu */
- .sidenav {
-     height: 95%; /* Full-height: remove this if you want "auto" height */
-     width: 240px; /* Set the width of the sidebar */
-     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-     z-index: 1; /* Stay on top */
-     top: 0; /* Stay at the top */
-     left: 0;
+.sidenav {
+  height: 95%; /* Full-height: remove this if you want "auto" height */
+  width: 240px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
 
-     overflow-x: hidden; /* Disable horizontal scroll */
-     padding-top: 20px;
- }
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+}
 
 /* The navigation menu links */
 .sidenav a {
@@ -184,7 +193,6 @@ span.thumb {
   font-weight: bold;
   padding: 0px 8px 6px 16px;
   text-decoration: none;
-
   display: block;
 }
 
