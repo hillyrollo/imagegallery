@@ -8,7 +8,7 @@ threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 threads threads_count, threads_count
 daemonize if ENV.fetch("RAILS_ENV") == 'production'
 
-# pidfile '/var/run/puma/puma.pid'
+pidfile '/var/run/puma/puma.pid'
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
