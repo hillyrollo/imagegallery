@@ -36,6 +36,7 @@ gem 'rails-jquery-autocomplete'
 gem 'jquery-rails'
 gem 'streamio-ffmpeg'
 gem 'yaml_db'
+gem 'backup'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
