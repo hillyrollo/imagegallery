@@ -7,9 +7,11 @@ A simple and rough app that stores and serves tagged images.
 - ffmpegthumbnailer: `apt-get install ffmpegthumbnailer` - https://github.com/dirkvdb/ffmpegthumbnailer
 
 ### Sample httpd setup
+```
 apt-get install apache2
 a2enmod proxy
 a2enmod proxy_httpd
+```
 
 ### Sample httpd config
 ```
