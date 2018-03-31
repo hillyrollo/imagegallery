@@ -30,11 +30,11 @@ class ImagesController < ApplicationController
     end
     @images = Image.tagged_with(params[:search].split(' ')).reverse
     return if @images.length < 1
-
+    
+    tags = params[:search].split(' ')
     if tags.length == 1
       @title = "#{tags.first} (#{Image.all_tags.find_by(name: tags.first).taggings_count})"
     else
-      tags = params[:search].split(' ')
       tags.each_with_index do |t, i|
         tags[i] = "#{tags[i]}(#{Image.all_tags.find_by(name: tags[i]).taggings_count})"
       end
