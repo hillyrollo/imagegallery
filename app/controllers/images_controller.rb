@@ -30,7 +30,7 @@ class ImagesController < ApplicationController
     end
     @images = Image.tagged_with(params[:search].split(' ')).reverse
     return if @images.length < 1
-    
+
     tags = params[:search].split(' ')
     if tags.length == 1
       @title = "#{tags.first} (#{Image.all_tags.find_by(name: tags.first).taggings_count})"
@@ -40,8 +40,8 @@ class ImagesController < ApplicationController
       end
       @title = tags.join(' + ')
       @title << " = #{@images.length}"
-      @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash = ImagesHelper.generate_tag_counts(@images)
     end
+    @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash = ImagesHelper.generate_tag_counts(@images)
   end
 
   def artists
