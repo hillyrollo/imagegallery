@@ -48,7 +48,7 @@ module SankakuChannel
     end
 
     return nil, {} if image_path.nil?
-    image_path = image_path.split('?').first
+    # image_path = image_path.split('?').first
 
     url = "https:#{image_path}"
 

@@ -86,7 +86,7 @@ class ImagesController < ApplicationController
       return
     end
 
-    image_name = File.basename(url)
+    image_name = File.basename(url.split('?').first)
     # Make sure we don't already have the image
     if File.exist?("#{Settings.image_directory}/#{image_name}")
       render json: { status: 409, message: 'image already exists' }, status: 409
