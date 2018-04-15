@@ -4,7 +4,7 @@ module ThumbnailHelper
 
     extension = File.extname(file_path)
     image_formats = ['.jpg', '.png']
-    video_formats = ['.webm', '.mp4']
+    video_formats = ['.webm', '.mp4', '.gif']
 
     if image_formats.include? extension
       `convert -thumbnail 180x180 -gravity center -background white -extent 180x180 #{file_path} #{thumbs_dir}/#{File.basename(file_path).split('.').first}.png`
@@ -18,6 +18,9 @@ module ThumbnailHelper
         `ffmpegthumbnailer -i #{file_path} -s 0 -o #{temp_thumbname}`
         `convert -thumbnail 180x180 -gravity center -background white -extent 180x180 #{temp_thumbname} #{thumbs_dir}/#{File.basename(file_path, '.webm')}.png`
         File.delete(temp_thumbname)
+        return nil
+      elsif extension == '.gif'
+        `convert -thumbnail 180x180 -gravity center -background white -extent 180x180 #{file_path}[0] #{thumbs_dir}/#{File.basename(file_path, '.gif')}.png`
         return nil
       end
     else
