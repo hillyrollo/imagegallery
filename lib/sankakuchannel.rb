@@ -32,7 +32,7 @@ module SankakuChannel
     image_path = nil
 
     if !doc.css('video').empty?
-      image_path = doc.css('video').first['src'].split('?').first
+      image_path = doc.css('video').first['src']
     else
       if doc.at_css('[id="image-link"]')
         ele = doc.at_css('[id="image-link"]')
