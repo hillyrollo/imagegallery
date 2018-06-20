@@ -1,46 +1,9 @@
-<script>
-  var pswpElement = document.querySelectorAll('.pswp')[0];
-
-  // build items array
-  var items = [
-      <% @images.each do |image| %>
-        {
-          <% if image.is_video? %>
-            videosrc: "<%= asset_path(image.filename, type: :image, skip_pipeline: true)%>",
-            id: "vid-<%= image.id %>",
-            vw: <%= image.width %>,
-            vh: <%= image.height %>,
-            html: '<video id="vid-<%= image.id %>" controls loop><source src="<%= asset_path(image.filename, type: :image, skip_pipeline: true)%>" type="video/<%= image.extension %>"></video>',
-          <% else %>
-            src: "<%= asset_path(image.filename, type: :image, skip_pipeline: true)%>",
-            w: <%= image.width %>,
-            h: <%= image.height %>,
-          <% end %>
-          rotation: 0
-        },
-      <% end %>
-  ];
-
-  // define options (if needed)
-  var options = {
-      index: 0, // start at first slide
-      preload: [2,2],
-      barsSize: {top: 0, bottom: 0},
-      shareEl: false
-  };
-</script>
+<%= render 'photoswipe' %>
 
 <h2><%= @title %></h2>
 
 <% if @images.length > 0 %>
-<% @images.each_with_index do |i,ind| %>
-  <span class="thumb">
-    <%= link_to post_path(i), target: :_blank do %>
-      <%= content_tag(:div, '', class: 'play-button', onclick: "pswp = createPhotoSwipe(#{ind});pswp.init();return false;") %>
-      <%= image_tag(i.thumbnail_path, class: 'preview', title: i.tag_summary,  skip_pipeline: true) %>
-    <% end %>
-  </span>
-<% end %>
+  <%= render 'gallery' %>
 <% else %>
   <h3>Nothing here</h3>
 <% end %>

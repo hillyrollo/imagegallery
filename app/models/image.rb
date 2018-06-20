@@ -6,14 +6,18 @@ class Image < ApplicationRecord
     (artist_list + character_list + genre_list + copyright_list + medium_list).uniq
   end
 
+  def asset_path
+    "2d/#{filename}"
+  end
+
   def thumbnail_path
     file = filename.split '.'
     file[1] = 'png'
-    "thumbs/#{file.join '.'}"
+    "2d/thumbs/#{file.join '.'}"
   end
 
   def file_path
-    "#{Settings.image_directory}/#{filename}"
+    "#{Settings.image_directory}/2d/#{filename}"
   end
 
   # Current supported video types are mp4 and webm

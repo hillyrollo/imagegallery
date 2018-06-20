@@ -61,7 +61,8 @@ class ImagesController < ApplicationController
   end
 
   def show
-    @image = Image.find_by id: params[:id]
+    @images = [Image.find_by(id: params[:id])]
+    @image = @images.first
     @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash = ImagesHelper.generate_tag_counts([@image])
   end
 

@@ -1,0 +1,8 @@
+<% @images.each_with_index do |i,ind| %>
+  <span class="thumb">
+    <%= link_to post_path(i), target: :_blank do %>
+      <%= content_tag(:div, '', class: 'play-button', onclick: "pswp = createPhotoSwipe(#{ind});pswp.init();return false;") %>
+      <%= image_tag(i.thumbnail_path, class: 'preview', title: i.tag_summary,  skip_pipeline: true) %>
+    <% end %>
+  </span>
+<% end %>

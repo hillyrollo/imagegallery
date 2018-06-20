@@ -1,0 +1,33 @@
+<script>
+  var pswpElement = document.querySelectorAll('.pswp')[0];
+  // build items array
+  var items = [
+      <% @images.each do |image| %>
+        {
+            <% if image.is_video? %>
+              videosrc: "<%= asset_path(image.asset_path, type: :image, skip_pipeline: true)%>",
+              id: "vid-<%= image.id %>",
+              vw: <%= image.width %>,
+              vh: <%= image.height %>,
+              html: '<video id="vid-<%= image.id %>" controls loop><source src="<%= asset_path(image.asset_path, type: :image, skip_pipeline: true)%>" type="video/<%= image.extension %>"></video>',
+            <% else %>
+              src: "<%= asset_path(image.asset_path, type: :image, skip_pipeline: true)%>",
+              w: <%= image.width %>,
+              h: <%= image.height %>,
+            <% end %>
+            rotation: 0
+        },
+      <% end %>
+  ];
+
+  // define options (if needed)
+  var options = {
+      index: 0, // start at first slide
+      preload: [3,3],
+      barsSize: {top: 0, bottom: 0},
+      shareEl: false
+  };
+
+  // Initializes and opens PhotoSwipe
+  var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+</script>
