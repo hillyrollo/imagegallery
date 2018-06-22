@@ -105,7 +105,7 @@
 
       <% if @models_hash %>
         <% @models_hash.keys.each do |k| %>
-          <%= link_to "#{k}(#{models_hash[k]})", posts_path(search: k), class: 'model' %>
+          <%= link_to "#{k}(#{@models_hash[k]})", posts_path(search: k), class: 'model' %>
         <% end %>
       <% end %>
 
