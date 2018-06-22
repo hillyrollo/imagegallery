@@ -83,10 +83,7 @@
       <%= link_to 'Home', root_path %>
       <hr>
       <!-- Search box -->
-      <%= form_tag(posts_path, method: :get, id: 'search-form') do %>
-        <%= text_field_tag :search, params[:search], class: 'search-query', type: 'search', data: {autocomplete: autocomplete_tag_name_posts_path, multiple: true, delimiter: ' '} %>
-        <%= submit_tag 'Search' %>
-      <% end %>
+      <%= render 'searchbox' %>
       <hr>
       <%= link_to 'Latest', latest_path %>
       <%= link_to 'Random', random_path %>

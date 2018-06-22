@@ -200,6 +200,10 @@ a.character {
   color: #0A0;
 }
 
+a.model {
+  color: #FF0066;
+}
+
 a.artist {
   color: #A00;
 }

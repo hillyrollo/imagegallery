@@ -24,7 +24,6 @@ module ThumbnailHelper
         return nil
       end
     else
-      puts "File type #{extension} not supported. Supported: #{image_formats} #{video_formats}"
       return "File type #{extension} not supported. Supported: #{image_formats} #{video_formats}"
     end
   end

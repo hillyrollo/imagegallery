@@ -30,3 +30,14 @@ production:
   host: localhost
   port: 3306
   pool: 16
+
+production2:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: <%= ENV.fetch('IMAGEGALLERY_DB_NAME2') %>
+  username: <%= ENV.fetch('IMAGEGALLERY_DB_USER') %>
+  password: <%= ENV.fetch('IMAGEGALLERY_DB_PASSWORD') %>
+  host: localhost
+  port: 3306
+  pool: 16
