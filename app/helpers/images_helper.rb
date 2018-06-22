@@ -26,7 +26,7 @@ module ImagesHelper
       image.mediums.each do |m|
         mediums_hash[m.name] = m.taggings_count if mediums_hash[m.name].nil?
       end
-      image_models.each do |m|
+      image.models.each do |m|
         models_hash[m.name] = m.taggings_count if models_hash[m.name].nil?
       end
     end
