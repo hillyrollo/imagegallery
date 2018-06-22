@@ -1,23 +1,23 @@
 class Image < ApplicationRecord
   acts_as_taggable # Alias for acts_as_taggable_on :tags
-  acts_as_taggable_on :artists, :genres, :characters, :copyrights, :mediums
+  acts_as_taggable_on :artists, :genres, :characters, :copyrights, :mediums, :models
 
   def tag_summary
-    (artist_list + character_list + genre_list + copyright_list + medium_list).uniq
+    (artist_list + character_list + genre_list + copyright_list + medium_list + model_list).uniq
   end
 
   def asset_path
-    "2d/#{filename}"
+    "#{Settings.image_asset_prefix}#{filename}"
   end
 
   def thumbnail_path
     file = filename.split '.'
     file[1] = 'png'
-    "2d/thumbs/#{file.join '.'}"
+    "#{Settings.image_asset_prefix}thumbs/#{file.join '.'}"
   end
 
   def file_path
-    "#{Settings.image_directory}/2d/#{filename}"
+    "#{Settings.image_directory}/#{filename}"
   end
 
   # Current supported video types are mp4 and webm
@@ -39,6 +39,7 @@ class Image < ApplicationRecord
     self.character_list = tags['characters']
     self.copyright_list = tags['copyrights']
     self.medium_list = tags['mediums']
+    self.model_list = tags['models']
 
     save
   end

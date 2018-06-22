@@ -1,3 +1,4 @@
 ---
   image_directory: '/var/www/images/2d'
+  image_asset_prefix: '2d/'
   processing_directory: '/path/to/something'
