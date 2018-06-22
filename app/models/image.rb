@@ -47,7 +47,7 @@ class Image < ApplicationRecord
   def self.untagged
     untagged = []
     self.all.each do |i|
-      tag_sum =i.artist_list.length + i.genre_list.length + i.copyright_list.length + i.character_list.length + i.medium_list.length
+      tag_sum =i.artist_list.length + i.genre_list.length + i.copyright_list.length + i.character_list.length + i.medium_list.length + i.model_list.length
       untagged << i if tag_sum == 0
     end
     untagged

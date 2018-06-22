@@ -4,12 +4,12 @@ class ImagesController < ApplicationController
 
   def index
     @images = Image.offset(rand(Image.count) - 25).first(25).shuffle
-    @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash = ImagesHelper.generate_tag_counts(@images)
+    @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash, @models_hash = ImagesHelper.generate_tag_counts(@images)
   end
 
   def latest
     @images = Image.last(25).reverse
-    @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash = ImagesHelper.generate_tag_counts(@images)
+    @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash, @models_hash = ImagesHelper.generate_tag_counts(@images)
   end
 
   def random_tag
@@ -41,7 +41,7 @@ class ImagesController < ApplicationController
       @title = tags.join(' + ')
       @title << " = #{@images.length}"
     end
-    @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash = ImagesHelper.generate_tag_counts(@images)
+    @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash, @models_hash = ImagesHelper.generate_tag_counts(@images)
   end
 
   def artists
@@ -63,7 +63,7 @@ class ImagesController < ApplicationController
   def show
     @images = [Image.find_by(id: params[:id])]
     @image = @images.first
-    @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash = ImagesHelper.generate_tag_counts([@image])
+    @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash, @models_hash = ImagesHelper.generate_tag_counts([@image])
   end
 
   def check
@@ -122,6 +122,7 @@ class ImagesController < ApplicationController
     image.character_list = tags['characters']
     image.copyright_list = tags['copyrights']
     image.medium_list = tags['mediums']
+    image.model_list = tags['models']
 
     image = ImageProcessingHelper.scale_image(image) unless image.is_video?
     image.save
