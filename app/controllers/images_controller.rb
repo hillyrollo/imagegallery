@@ -60,6 +60,10 @@ class ImagesController < ApplicationController
     @list = Image.medium_counts.order(:name)
   end
 
+  def models
+    @list = Image.model_counts.order(:name)
+  end
+
   def show
     @images = [Image.find_by(id: params[:id])]
     @image = @images.first

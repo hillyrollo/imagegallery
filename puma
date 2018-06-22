@@ -2,16 +2,27 @@
 APP_NAME=image_gallery
 APP_LOCALE=/var/www/imagegallery
 
+APP2_NAME=image_gallery_3d
+APP2_LOCALE=/var/www/imagegallery3d
+
 start() {
   echo "Starting ${APP_NAME}"
   cd $APP_LOCALE
   RAILS_ENV=production PORT=9292 bundle exec pumactl -F config/puma.rb start
+
+  echo "Starting ${APP2_NAME}"
+  cd $APP2_LOCALE
+  RAILS_ENV=production2 PORT=9291 bundle exec pumactl -F config/puma.rb start
 }
 
 stop() {
   echo "Stopping ${APP_NAME}"
   cd $APP_LOCALE
   RAILS_ENV=production bundle exec pumactl -F config/puma.rb stop
+
+  echo "Starting ${APP2_NAME}"
+  cd $APP2_LOCALE
+  RAILS_ENV=production2 bundle exec pumactl -F config/puma.rb stop
 }
 
 case "$1" in

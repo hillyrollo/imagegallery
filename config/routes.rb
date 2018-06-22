@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/artists' => 'images#artists'
   get '/genres' => 'images#genres'
   get '/mediums' => 'images#mediums'
+  get '/models' => 'images#models'
   get '/characters' => 'images#characters'
   get '/posts/(:id)' => 'images#show', as: 'post'
   get '/latest' => 'images#latest'

@@ -93,12 +93,19 @@
       <%= link_to 'Characters', characters_path %>
       <%= link_to 'Genres', genres_path %>
       <%= link_to 'Mediums', mediums_path %>
+      <%= link_to 'Models', models_path %>
 
       <hr>
 
       <% if @characters_hash %>
         <% @characters_hash.keys.each do |k| %>
           <%= link_to "#{k}(#{@characters_hash[k]})", posts_path(search: k), class: 'character' %>
+        <% end %>
+      <% end %>
+
+      <% if @models_hash %>
+        <% @models_hash.keys.each do |k| %>
+          <%= link_to "#{k}(#{models_hash[k]})", posts_path(search: k), class: 'model' %>
         <% end %>
       <% end %>
 
