@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name         Sankaku Complex Download Button
-// @namespace    https://chan.sankakucomplex.com
+// @name         Idol Complex Download Button
+// @namespace    https://idol.sankakucomplex.com
 // @version      0.1
 // @description  Adds a button to add the current image you're looking at to the image gallery
 // @author       You
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
-// @match        https://chan.sankakucomplex.com/post/show/*
+// @match        https://idol.sankakucomplex.com/post/show/*
 // @grant GM_xmlhttpRequest
 // ==/UserScript==
 
@@ -39,7 +39,7 @@ $(document).keypress(function(event) {
         var postURL = window.location.href;
         var resp = GM_xmlhttpRequest({
             method: "POST",
-            url: "http://192.168.1.200/?url=" + postURL,
+            url: "http://192.168.1.200:9282/?url=" + postURL,
             onload: function(res) {
                 // Update with result when request completes
                 var txt = document.createTextNode(res.responseText);
