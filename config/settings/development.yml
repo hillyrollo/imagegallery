@@ -2,3 +2,6 @@
   image_directory: '/var/www/images/2d'
   image_asset_prefix: '2d/'
   processing_directory: '/path/to/something'
+  alternate_sites:
+    - name: 3d
+      port: 9282

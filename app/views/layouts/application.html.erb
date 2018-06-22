@@ -81,6 +81,11 @@
 
     <div class="sidenav">
       <%= link_to 'Home', root_path %>
+      <% if Settings.alternate_sites %>
+        <% Settings.alternate_sites.each do |s| %>
+          <%= link_to s.name, root_url(port: s.port) %>
+        <% end %>
+      <% end %>
       <hr>
       <!-- Search box -->
       <%= render 'searchbox' %>
