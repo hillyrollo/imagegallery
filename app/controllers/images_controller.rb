@@ -23,7 +23,7 @@ class ImagesController < ApplicationController
   end
 
   def random_images
-    count = params[:count] ||= 150
+    count = params[:count]&.to_i || 150
     @images = Image.all.sample(count)
     @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash, @models_hash = ImagesHelper.generate_tag_counts(@images)
   end
