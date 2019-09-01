@@ -22,6 +22,12 @@ class ImagesController < ApplicationController
     redirect_to(post_path(image))
   end
 
+  def random_images
+    count = params[:count] ||= 150
+    @images = Image.all.sample(count)
+    @artists_hash, @characters_hash, @genres_hash, @series_hash, @mediums_hash, @models_hash = ImagesHelper.generate_tag_counts(@images)
+  end
+
   def search
     params[:search].downcase!
     if params[:search].nil?

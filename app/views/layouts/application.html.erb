@@ -93,6 +93,10 @@
       <%= link_to 'Latest', latest_path %>
       <%= link_to 'Random', random_path %>
       <%= link_to 'Random Tag', random_tag_path %>
+      <%= link_to 'Random Posts(150)', random_posts_path %>
+      <%= link_to 'Random Posts(250)', random_posts_path(count: 250) %>
+      <%= link_to 'Random Posts(500)', random_posts_path(count: 500) %>
+      <%= link_to 'Random Posts(1000)', random_posts_path(count: 1000) %>
       <hr>
       <%= link_to 'Artists', artists_path %>
       <%= link_to 'Characters', characters_path %>

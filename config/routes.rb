@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '/latest' => 'images#latest'
   get '/random' => 'images#random_image'
   get '/random_tag' => 'images#random_tag'
+  get '/random_posts' => 'images#random_images'
   get '/check' => 'images#check'
 
   post '/' => 'images#create'
