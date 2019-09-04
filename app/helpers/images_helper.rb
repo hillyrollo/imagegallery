@@ -33,4 +33,18 @@ module ImagesHelper
 
     return artists_hash.sort.to_h, characters_hash.sort.to_h, genres_hash.sort.to_h, series_hash.sort.to_h, mediums_hash.sort.to_h, models_hash.sort.to_h
   end
+
+  def self.contains_bad_characters?(str)
+    bad_char_regex = /[ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž]/
+    str.match(bad_char_regex)
+  end
+
+  def sanitize_tags(tags)
+    tags.keys.each do |k|
+      tags[k].each do |tag|
+        tags[k].delete(tag) if contains_bad_characters?(tag)
+      end
+    end
+    tags
+  end
 end

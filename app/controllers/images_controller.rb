@@ -104,6 +104,8 @@ class ImagesController < ApplicationController
       return
     end
 
+    tags = ImagesHelper.sanitize_tags(tags)
+
     # Download image
     resp = HTTParty.get(url)
     puts resp.code
