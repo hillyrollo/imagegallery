@@ -45,6 +45,7 @@ module ImagesHelper
         tags[k].delete(tag) if contains_bad_characters?(tag)
       end
     end
+
     tags
   end
 end
