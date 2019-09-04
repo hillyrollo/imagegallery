@@ -104,8 +104,6 @@ class ImagesController < ApplicationController
       return
     end
 
-    Rails.logger.info('*' * 100)
-    Rails.logger.info(tags)
     tags = ImagesHelper.sanitize_tags(tags)
 
     # Download image
