@@ -41,7 +41,7 @@ module ImagesHelper
 
   def self.sanitize_tags(tags)
     tags.keys.each do |k|
-      next if tags[k] == 'post_url'
+      next if k == 'post_url'
       tags[k].each do |tag|
         tags[k].delete(tag) if contains_bad_characters?(tag)
       end
