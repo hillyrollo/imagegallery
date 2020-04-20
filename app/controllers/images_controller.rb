@@ -186,7 +186,7 @@ class ImagesController < ApplicationController
     end
 
     image.artist_list = tags['artist']
-    image.genre_list = tags['genre']
+    image.genre_list = tags['general']
     image.character_list = tags['character']
     image.copyright_list = tags['copyright']
     image.medium_list = tags['medium']
