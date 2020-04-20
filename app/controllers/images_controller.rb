@@ -1,5 +1,5 @@
 class ImagesController < ApplicationController
-  skip_before_action :verify_authenticity_token, :only => [:create]
+  skip_before_action :verify_authenticity_token, :only => [:create, :create_v2]
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag'
 
   def index
