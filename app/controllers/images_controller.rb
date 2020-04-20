@@ -147,4 +147,60 @@ class ImagesController < ApplicationController
 
     render json: { status: 200, message: 'success'}
   end
+
+  def create_v2
+    source_url = params[:source_url]
+    tags = params[:tags]
+    image_url = params[:image_url]
+
+    if !Image.find_by(source_url: source_url).nil?
+      render json: { status: 409, message: 'image already exists' }, status: 409
+      return
+    end
+
+    image_name = File.basename(image_url.split('?').first)
+    # Make sure we don't already have the image
+    if File.exist?("#{Settings.image_directory}/#{image_name}")
+      render json: { status: 409, message: 'image already exists' }, status: 409
+      return
+    end
+
+    resp = HTTParty.get(image_url)
+    if resp.code != 200
+      render json: { status: 500, message: "Error downloading from #{params[:url]}, code: #{resp.code}" }, status: 500
+      return
+    end
+    File.open("#{Settings.image_directory}/#{image_name}", 'wb') do |f|
+      f.write(resp.body)
+    end
+
+    image = Image.new
+    image.filename = image_name
+    image.source_url = source_url
+    if image.is_video?
+      v = FFMPEG::Movie.new("#{Settings.image_directory}/#{image_name}")
+      image.width = v.width
+      image.height = v.height
+    else
+      image.width, image.height = FastImage.size("#{Settings.image_directory}/#{image_name}")
+    end
+
+    image.artist_list = tags['artist']
+    image.genre_list = tags['genre']
+    image.character_list = tags['character']
+    image.copyright_list = tags['copyright']
+    image.medium_list = tags['medium']
+    image.model_list = tags['model']
+
+    image = ImageProcessingHelper.scale_image(image) unless image.is_video?
+    image.save
+
+    # Create thumbnail
+    if ThumbnailHelper.create_thumbnail("#{Settings.image_directory}/#{image_name}") != nil
+      render json: { status: 500, message: "Error generating thumbnail" }, status: 500
+      return
+    end
+
+    render json: { status: 200, message: 'success'}
+  end
 end

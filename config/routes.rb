@@ -20,5 +20,6 @@ Rails.application.routes.draw do
   get '/check' => 'images#check'
 
   post '/' => 'images#create'
+  post '/v2/images/new' => 'images#create_v2'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
