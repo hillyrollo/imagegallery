@@ -102,7 +102,7 @@ GEM
     erubi (1.7.0)
     execjs (2.7.0)
     fastimage (2.1.1)
-    ffi (1.9.18)
+    ffi (1.12.2)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     httparty (0.15.6)
